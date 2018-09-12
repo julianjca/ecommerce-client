@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <!-- css -->
+  <link rel="stylesheet" href="/styles/style.css">
+
+  <!-- fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,500,700,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,500,700,900" rel="stylesheet">
+
+  <!-- Font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+
+  <!-- hover -->
+  <link rel="stylesheet" href="./styles/hover-min.css">
+
+  <!-- axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <title>E-Commerce</title>
+</head>
+
+<body>
+  <div id="app">
+    <main-header @show-modal="show" @show-login="showingLogin" @show-register="showRegister=true" v-bind:log-status="isLogin"></main-header>
+    <login-form @login="login" v-if="showLogin" @close-login="showLogin=false"></login-form>
+    <register-form @register="register" v-if="showRegister" @close-register="showRegister=false"></register-form>
+    <main-landing></main-landing>
+
+    <div class="category-list">
+      <ul>
+        <li v-for="category in categories">
+          <main-category v-bind:category="category" @call-category="findCategory"></main-category>
+        </li>
+      </ul>
+    </div>
+
+    <div id="cart" v-if="showModal">
+      <div class="title">
+        Shopping Bag
+      </div>
+      <div class="shopping-cart">
+        <div v-for="item in cart" :key="item.id">
+          <main-cart v-bind:item="item" @delete-on-parent="deleteFromCart"></main-cart>
+        </div>
+      </div>
+
+      <div v-on:click="close" id="close">
+        <h4>close</h4>
+      </div>
+    </div>
+
+    <div class="best-seller">
+      <h2>List of Products</h2>
+      <div class="container-bs">
+        <div v-for="item in products">
+          <product-comp v-bind:product="item" @add-cart="addToCart"></product-comp>
+        </div>
+      </div>
+    </div>
+
+    <advantage-comp></advantage-comp>
+
+    <main-footer></main-footer>
+
+
+
+  </div>
+  <script src="./scripts/register.js"></script>
+  <script src="./scripts/login.js"></script>
+  <script src="./scripts/advantages.js"></script>
+  <script src="./scripts/product.js"></script>
+  <script src="./scripts/landing.js"></script>
+  <script src="./scripts/cart.js"></script>
+  <script src="./scripts/footer.js"></script>
+  <script src="./scripts/category.js"></script>
+  <script src="./scripts/header.js"></script>
+  <script src="./scripts/index.js"></script>
+
+</body>
+
+</html>
