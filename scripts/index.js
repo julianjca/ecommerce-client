@@ -1,3 +1,5 @@
+const baseUrl = `http://api.minimalistcoder.xyz/`;
+
 const app = new Vue({
   el: '#app',
   methods : {
@@ -11,7 +13,7 @@ const app = new Vue({
     findCategory : function(id){
       axios({
         method: 'GET',
-        url: `http://localhost:3000/categories/${id}`
+        url: `${baseUrl}categories/${id}`
       })
         .then(data => {
           app.products = data.data.data.products;
@@ -51,7 +53,7 @@ const app = new Vue({
     login(loginData){
       axios({
         method : 'POST',
-        url : 'http://localhost:3000/login',
+        url : `${baseUrl}login`,
         data : {
           email : loginData.email,
           password : loginData.password
@@ -77,7 +79,7 @@ const app = new Vue({
     register(registerData){
       axios({
         method : 'POST',
-        url : 'http://localhost:3000/register',
+        url : `${baseUrl}register`,
         data : {
           email : registerData.email,
           password : registerData.password,
@@ -87,6 +89,32 @@ const app = new Vue({
       .then(response=>{
         console.log(response);
         app.showRegister = false;
+      })
+      .catch(err=>{
+        console.log(err);
+      });
+    },
+    checkout(){
+      const finalArr = [];
+      const token = localStorage.getItem("token");
+      for(let i = 0;i<this.cart.length;i++){
+        finalArr.push(this.cart[i]._id);
+      }
+
+      axios({
+        method : "POST",
+        url : `${baseUrl}checkout`,
+        data : {
+          objId : finalArr
+        },
+        headers : {
+          token : token
+        }
+      })
+      .then(response=>{
+        console.log(response);
+        this.cart = [];
+
       })
       .catch(err=>{
         console.log(err);
@@ -111,7 +139,7 @@ const app = new Vue({
       this.cart = JSON.parse(localStorage.getItem('cart'));
       axios({
         method: 'get',
-        url: 'http://localhost:3000/categories/',
+        url: `${baseUrl}categories/`,
       })
         .then(data => {
           console.log(data.data.data);
@@ -125,7 +153,7 @@ const app = new Vue({
     mounted : function (){
       axios({
         method : 'GET',
-        url : 'http://localhost:3000/auth',
+        url : `${baseUrl}auth`,
         headers : {
           token : localStorage.getItem('token')
         }
