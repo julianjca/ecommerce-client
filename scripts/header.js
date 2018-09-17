@@ -7,7 +7,7 @@ Vue.component('main-header', {
 
     </div>
     <div class="search-bar">
-      <input type="text" placeholder="Search.." name="search">
+      <input type="text" placeholder="Search.." name="search" v-model="search">
       <button type="submit"><i class="fa fa-search"></i></button>
     </div>
     <div class="menu">
@@ -43,7 +43,16 @@ methods : {
     localStorage.removeItem('token');
     localStorage.removeItem('cart');
     location.reload();
+  },
+  find(){
+    const searchKey = this.search;
+    this.$emit('search',searchKey);
   }
 },
-  props : ['logStatus']
+  props : ['logStatus'],
+  data(){
+    return {
+      search : ''
+    };
+  }
 });

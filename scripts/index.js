@@ -119,6 +119,22 @@ const app = new Vue({
       .catch(err=>{
         console.log(err);
       });
+    },
+
+    findProducts(key){
+      axios({
+        method : "post",
+        data : {
+          searchKey : key
+        },
+        url : `${baseUrl}products/search`
+      })
+      .then(data=>{
+        app.products = data.data.data;
+      })
+      .catch(err=>{
+        console.log(err);
+      });
     }
   },
 
